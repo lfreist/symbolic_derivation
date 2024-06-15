@@ -7,6 +7,7 @@
 #include <fsd/variable.h>
 
 #include <format>
+#include <cmath>
 
 namespace fsd {
 
@@ -54,6 +55,31 @@ std::unique_ptr<Term_I> BinaryOp<Operation_TP::POW>::derivative(const std::strin
       std::make_unique<BinaryOp<Operation_TP::SUB>>(_rhs->clone(), constant(1))
     )
   );
+}
+
+template <>
+double BinaryOp<Operation_TP::ADD>::evaluate(const std::map<std::string, double>& var) const {
+  return _lhs->evaluate(var) + _rhs->evaluate(var);
+}
+
+template <>
+double BinaryOp<Operation_TP::SUB>::evaluate(const std::map<std::string, double>& var) const {
+  return _lhs->evaluate(var) - _rhs->evaluate(var);
+}
+
+template <>
+double BinaryOp<Operation_TP::MUL>::evaluate(const std::map<std::string, double>& var) const {
+  return _lhs->evaluate(var) * _rhs->evaluate(var);
+}
+
+template <>
+double BinaryOp<Operation_TP::DIV>::evaluate(const std::map<std::string, double>& var) const {
+  return _lhs->evaluate(var) / _rhs->evaluate(var);
+}
+
+template <>
+double BinaryOp<Operation_TP::POW>::evaluate(const std::map<std::string, double>& var) const {
+  return std::pow(_lhs->evaluate(var), _rhs->evaluate(var));
 }
 
 template <>

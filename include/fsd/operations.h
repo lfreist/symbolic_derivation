@@ -36,9 +36,7 @@ public:
 
   [[nodiscard]] std::unique_ptr<Term_I> derivative(const std::string& var) const override;
 
-  [[nodiscard]] std::unique_ptr<Term_I> evaluate(const std::map<std::string, double>& var) const override {
-    return std::make_unique<Constant<int>>(0);
-  }
+  [[nodiscard]] double evaluate(const std::map<std::string, double>& var) const override;
 
   [[nodiscard]] std::string to_str() const override;
 

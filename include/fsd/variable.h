@@ -15,7 +15,7 @@ namespace fsd {
 
 class Variable final : public Term_I {
 public:
-  explicit Variable(std::string  name) : _name(std::move(name)) {}
+  explicit Variable(std::string name) : _name(std::move(name)) {}
 
   [[nodiscard]] std::unique_ptr<Term_I> derivative(const std::string& var) const override {
     if (_name == var) {
@@ -24,8 +24,11 @@ public:
     return std::make_unique<Constant<int>>(0);
   }
 
-  [[nodiscard]] std::unique_ptr<Term_I> evaluate(const std::map<std::string, double> &var) const override {
-    return std::make_unique<Constant<int>>(0);
+  [[nodiscard]] double evaluate(const std::map<std::string, double> &var) const override {
+    if (var.contains(_name)) {
+      return var.at(_name);
+    }
+    throw std::runtime_error("no value for variable " + _name);
   }
 
   [[nodiscard]] std::string to_str() const override {
