@@ -20,4 +20,6 @@ class Term_I {
   [[nodiscard]] virtual std::unique_ptr<Term_I> clone() const = 0;
 };
 
+typedef std::unique_ptr<Term_I> Expression;
+
 }  // namespace fsd

@@ -12,24 +12,29 @@
 
 namespace fsd {
 
-enum class Operation_TP {
+enum class BinaryOperation_TP {
   ADD,
   SUB,
   MUL,
   DIV,
-  POW
+  POW,
 };
 
-enum class Function_TP {
+enum class UnaryOperation_TP {
   EXP,
   SQRT,
   SIN,
   COS,
+  TAN,
   ASIN,
-  ACOS
+  ACOS,
+  ATAN,
 };
 
-template <Operation_TP T>
+template <UnaryOperation_TP T>
+class UnaryOp final : public Term_I {};
+
+template <BinaryOperation_TP T>
 class BinaryOp final : public Term_I {
 public:
   BinaryOp(std::unique_ptr<Term_I> lhs, std::unique_ptr<Term_I> rhs) : _lhs(std::move(lhs)), _rhs(std::move(rhs)) {}
@@ -49,24 +54,28 @@ private:
   std::unique_ptr<Term_I> _rhs {nullptr};
 };
 
-inline std::unique_ptr<Term_I> operator+(std::unique_ptr<Term_I> lhs, std::unique_ptr<Term_I> rhs) {
-  return std::make_unique<BinaryOp<Operation_TP::ADD>>(std::move(lhs), std::move(rhs));
+inline std::unique_ptr<Term_I> operator+(std::unique_ptr<Term_I>& lhs, std::unique_ptr<Term_I>& rhs) {
+  return std::make_unique<BinaryOp<BinaryOperation_TP::ADD>>(lhs->clone(), rhs->clone());
+}
+
+inline std::unique_ptr<Term_I> operator+(std::unique_ptr<Term_I>&& lhs, std::unique_ptr<Term_I>&& rhs) {
+  return std::make_unique<BinaryOp<BinaryOperation_TP::ADD>>(std::move(lhs), std::move(rhs));
 }
 
 inline std::unique_ptr<Term_I> operator-(std::unique_ptr<Term_I> lhs, std::unique_ptr<Term_I> rhs) {
-  return std::make_unique<BinaryOp<Operation_TP::SUB>>(std::move(lhs), std::move(rhs));
+  return std::make_unique<BinaryOp<BinaryOperation_TP::SUB>>(std::move(lhs), std::move(rhs));
 }
 
 inline std::unique_ptr<Term_I> operator*(std::unique_ptr<Term_I> lhs, std::unique_ptr<Term_I> rhs) {
-  return std::make_unique<BinaryOp<Operation_TP::MUL>>(std::move(lhs), std::move(rhs));
+  return std::make_unique<BinaryOp<BinaryOperation_TP::MUL>>(std::move(lhs), std::move(rhs));
 }
 
 inline std::unique_ptr<Term_I> operator/(std::unique_ptr<Term_I> lhs, std::unique_ptr<Term_I> rhs) {
-  return std::make_unique<BinaryOp<Operation_TP::DIV>>(std::move(lhs), std::move(rhs));
+  return std::make_unique<BinaryOp<BinaryOperation_TP::DIV>>(std::move(lhs), std::move(rhs));
 }
 
 inline std::unique_ptr<Term_I> pow(std::unique_ptr<Term_I> lhs, std::unique_ptr<Term_I> rhs) {
-  return std::make_unique<BinaryOp<Operation_TP::POW>>(std::move(lhs), std::move(rhs));
+  return std::make_unique<BinaryOp<BinaryOperation_TP::POW>>(std::move(lhs), std::move(rhs));
 }
 
 }  // namespace fsd
