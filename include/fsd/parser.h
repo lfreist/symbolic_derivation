@@ -7,9 +7,9 @@
 #include <fsd/constant.h>
 #include <fsd/term.h>
 #include <fsd/tokenizer.h>
-#include <optional>
 
 #include <expected>
+#include <optional>
 #include <stack>
 #include <string_view>
 

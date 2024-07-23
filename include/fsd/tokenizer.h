@@ -5,13 +5,13 @@
 #pragma once
 
 #include <fsd/constant.h>
-#include <fsd/variable.h>
-#include <fsd/term.h>
 #include <fsd/operations.h>
+#include <fsd/term.h>
+#include <fsd/variable.h>
 
-#include <string_view>
 #include <expected>
 #include <stack>
+#include <string_view>
 
 namespace fsd {
 
@@ -88,4 +88,4 @@ class Tokenizer {
   std::string_view::const_iterator _position;
 };
 
-}  // namespace tokenizer
+}  // namespace fsd
